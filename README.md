@@ -1,54 +1,52 @@
-# React + TypeScript + Vite
+# Curso de React de cero a experto
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## S2 - ¿Qué es React?
 
-Currently, two official plugins are available:
+React fue creado por Jordan Walke, un ingeniero de software de Facebook, y fue lanzado públicamente en mayo de 2013. Inicialmente se desarrolló para solucionar problemas de rendimiento en el News Feed de Facebook y posteriormente se implementó en Instagram en 2012 antes de su lanzamiento público.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+React es una biblioteca de JavaScript de código abierto desarrollada por Facebook para construir interfaces de usuario interactivas y componentes reutilizables. Se enfoca en la creación de aplicaciones web de una sola página (SPA) y permite a los desarrolladores crear componentes que manejan su propio estado y se componen para crear interfaces complejas.
 
-## Expanding the ESLint configuration
+**Que problemas resuelve ?**
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Manipulacion del DOM, hay que decir como y donde.
+- Dificil de mantener, cuando una aplicacion crece, la sincronacion es complicada.
+- Sin estructura clara, reutilizar codigo o dividir responsabilidades es enredado.
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+**Propuesta**
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- Una libreria para construir interfaces, curva de aprendizaje suave
+- Sintaxis - JSX / TSX
+- Componentes reutilizables, parametrizables y predecibles
+- DOM virtual, mejora el rendimiento.
+
+**Estructura de un componente.**
 
 ```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+import { useState } from "react";
+export function Counter{
+  const [count, setCount] = useState(0);
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+  const handleClick = () => {
+    setCount(count + 1);
+  }
+
+  return (
+    <>
+      <p>Haz echo click {count} veces</p>
+      <button onClick={handleClick}>Click</button>
+    </>
+  )
+}
 ```
+
+**Librerias**
+
+- Sistemas de rutas, cambiar de pagina a pagina (React Router, Tanstack Router)
+- Peticiones HTTP, tu decides como y que usar (React Query, SWR, RTK Query)
+- Tu eliges las herramientas, pero tienes que mantenerlas de forma independiente.
+
+**Frameworks para traajar con React**
+
+- Next
+- RedwoodJS
+- Expo (for native apps) React Native
