@@ -50,3 +50,7 @@ export function Counter{
 - Next
 - RedwoodJS
 - Expo (for native apps) React Native
+
+## S3 - Reforzamientos de JavaScript && TypeScript
+
+Practicamente en esta seccion se hace un refuerzo de las tipos primitivos, funciones arreglos, objectos, etc.Un collback es una función que se pasa como argumento a otra función o metodo
