@@ -1,4 +1,18 @@
-const iroman = {
+interface Person {
+    firstName: string;
+    lastName: string;
+    age: number;
+    isAvenger: boolean;
+    address: Address;
+}
+
+interface Address {
+    postalCode: string;
+    street: string;
+    city: string;
+}
+
+const iroman: Person = {
     firstName: 'Tony',
     lastName: 'Stark',
     age: 40,
