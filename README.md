@@ -54,3 +54,25 @@ export function Counter{
 ## S3 - Reforzamientos de JavaScript && TypeScript
 
 Practicamente en esta seccion se hace un refuerzo de las tipos primitivos, funciones arreglos, objectos, etc.Un collback es una función que se pasa como argumento a otra función o metodo
+
+**type**:
+
+Un type es una definición de tipo personalizada que te permite describir cómo debe verse un dato.
+
+```js
+type Owner = "DC" | "Marvel";
+```
+
+**enum**
+
+Es una forma de definir un conjunto de valores constantes con nombre, para representar opciones fijas y evitar usar “strings mágicos” o números sin significado en el código.
+
+```js
+enum Estado {
+  Activo,
+  Inactivo,
+  Suspendido
+}
+```
+
+Las enumeraciones `(enum)` sí se transpilan a JavaScript, mientras que las interfaces `(interface)` y los tipos `(type)` no pasan a JavaScript, ya que solo existen en tiempo de compilación para el tipado.
