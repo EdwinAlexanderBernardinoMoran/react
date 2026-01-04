@@ -80,3 +80,44 @@ Las enumeraciones `(enum)` sí se transpilan a JavaScript, mientras que las inte
 ## S4 - Primeros pasos en react.
 
 Se recomienda declarar las constantes fuera del componente de React cuando su valor no cambia. Esto se debe a que, cada vez que ocurre un cambio de estado, el componente se vuelve a renderizar. Al mantener las constantes, funciones o variables que no dependen del estado ni de las props fuera del componente, se evita su recreación innecesaria en cada render, mejorando así el rendimiento y la organización del código.
+
+### Estilos Css en JSX
+
+- Primera forma de aplicar estilos Css a un componente
+
+```js
+export function MyAwosemeApp() {
+  return (
+    <>
+      <p
+        style={{
+          backgroundColor: "#fafafa",
+          borderRadius: 10,
+          padding: 10,
+        }}
+      >
+        Hola mundo
+      </p>
+    </>
+  );
+}
+```
+
+- Segunda forma de aplicar estilos CSS.
+
+```js
+import type { CSSProperties } from "react"; // Para obtener el intelisense dentro del editor (VSC)
+
+const myStyles = {
+  backgroundColor: "#fafafa",
+  borderRadius: 10,
+  padding: 10,
+};
+export function MyAwosemeApp() {
+  return (
+    <>
+      <p style={myStyles}>Hola mundo</p>
+    </>
+  );
+}
+```
