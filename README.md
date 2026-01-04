@@ -76,3 +76,7 @@ enum Estado {
 ```
 
 Las enumeraciones `(enum)` sí se transpilan a JavaScript, mientras que las interfaces `(interface)` y los tipos `(type)` no pasan a JavaScript, ya que solo existen en tiempo de compilación para el tipado.
+
+## S4 - Primeros pasos en react.
+
+Se recomienda declarar las constantes fuera del componente de React cuando su valor no cambia. Esto se debe a que, cada vez que ocurre un cambio de estado, el componente se vuelve a renderizar. Al mantener las constantes, funciones o variables que no dependen del estado ni de las props fuera del componente, se evita su recreación innecesaria en cada render, mejorando así el rendimiento y la organización del código.
