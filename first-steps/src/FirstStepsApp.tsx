@@ -1,13 +1,30 @@
+import { ItemCounter } from "./shopping-cart/ItemCounter";
+
+interface itemInCart {
+  productName: string;
+  quantity: number;
+}
+
+const itemsIncart: itemInCart[] = [
+  { productName: 'Nintendo Switch', quantity: 10 },
+  { productName: 'Pro Controller', quantity: 20 },
+  { productName: 'Super Smash', quantity: 0 },
+]
+
 export function FirstStepsApp() {
   return (
     <>
-      <h1>Hello world!</h1>
-      <p>Esto es un parrafo</p>
+      <h1>Shopping Cart</h1>
 
-      <button>Click me</button>
-      <div>
-        <h2>Hola dentro de un div</h2>
-      </div>
+      {
+        itemsIncart.map(({ productName, quantity }) => (
+          <ItemCounter 
+            key={ productName }
+            name={ productName }
+            quantity={ quantity }
+          />
+        ))
+      }
     </>
   )
 }
