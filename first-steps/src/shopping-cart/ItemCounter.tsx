@@ -1,16 +1,20 @@
+import { useState } from "react";
+
 interface Props{
   name: string;
   quantity?: number;
 }
 
 export const ItemCounter = ({ name, quantity = 0 }: Props) => {
+  const [count, setcount] = useState(quantity);
 
-  const handleClick = () => {
-    console.log(`Click en ${ name }`);
+  const handleAdd = () => {
+    setcount(count + 1);
   }
 
-  const handleMouseEnter = () => {
-    console.log(`Mouse enter en ${ name }`);
+  const handleSubtract = () => {
+    if (count === 0) return;
+    setcount(count - 1);
   }
 
   return (
@@ -24,9 +28,9 @@ export const ItemCounter = ({ name, quantity = 0 }: Props) => {
         <span style={{
           width: 150
         }}>{ name }</span>
-        <button onClick={handleClick} onMouseEnter={handleMouseEnter}>+1</button>
-        <span>{ quantity }</span>
-        <button>-1</button>
+        <button onClick={handleAdd}>+1</button>
+        <span>{ count }</span>
+        <button onClick={handleSubtract}>-1</button>
       </div>
     </>
   )
