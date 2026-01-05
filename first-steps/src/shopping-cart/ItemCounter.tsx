@@ -4,6 +4,15 @@ interface Props{
 }
 
 export const ItemCounter = ({ name, quantity = 0 }: Props) => {
+
+  const handleClick = () => {
+    console.log(`Click en ${ name }`);
+  }
+
+  const handleMouseEnter = () => {
+    console.log(`Mouse enter en ${ name }`);
+  }
+
   return (
     <>
       <div style={{
@@ -15,7 +24,7 @@ export const ItemCounter = ({ name, quantity = 0 }: Props) => {
         <span style={{
           width: 150
         }}>{ name }</span>
-        <button>+1</button>
+        <button onClick={handleClick} onMouseEnter={handleMouseEnter}>+1</button>
         <span>{ quantity }</span>
         <button>-1</button>
       </div>
