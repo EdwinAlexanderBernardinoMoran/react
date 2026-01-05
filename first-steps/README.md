@@ -1,73 +1,149 @@
-# React + TypeScript + Vite
+# Curso de React de cero a experto
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## S2 - ¿Qué es React?
 
-Currently, two official plugins are available:
+React fue creado por Jordan Walke, un ingeniero de software de Facebook, y fue lanzado públicamente en mayo de 2013. Inicialmente se desarrolló para solucionar problemas de rendimiento en el News Feed de Facebook y posteriormente se implementó en Instagram en 2012 antes de su lanzamiento público.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+React es una biblioteca de JavaScript de código abierto desarrollada por Facebook para construir interfaces de usuario interactivas y componentes reutilizables. Se enfoca en la creación de aplicaciones web de una sola página (SPA) y permite a los desarrolladores crear componentes que manejan su propio estado y se componen para crear interfaces complejas.
 
-## React Compiler
+**Que problemas resuelve ?**
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+- Manipulacion del DOM, hay que decir como y donde.
+- Dificil de mantener, cuando una aplicacion crece, la sincronacion es complicada.
+- Sin estructura clara, reutilizar codigo o dividir responsabilidades es enredado.
 
-## Expanding the ESLint configuration
+**Propuesta**
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Una libreria para construir interfaces, curva de aprendizaje suave
+- Sintaxis - JSX / TSX
+- Componentes reutilizables, parametrizables y predecibles
+- DOM virtual, mejora el rendimiento.
+
+**Estructura de un componente.**
 
 ```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+import { useState } from "react";
+export function Counter{
+  const [count, setCount] = useState(0);
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+  const handleClick = () => {
+    setCount(count + 1);
+  }
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+  return (
+    <>
+      <p>Haz echo click {count} veces</p>
+      <button onClick={handleClick}>Click</button>
+    </>
+  )
+}
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+**Librerias**
+
+- Sistemas de rutas, cambiar de pagina a pagina (React Router, Tanstack Router)
+- Peticiones HTTP, tu decides como y que usar (React Query, SWR, RTK Query)
+- Tu eliges las herramientas, pero tienes que mantenerlas de forma independiente.
+
+**Frameworks para traajar con React**
+
+- Next
+- RedwoodJS
+- Expo (for native apps) React Native
+
+## S3 - Reforzamientos de JavaScript && TypeScript
+
+Practicamente en esta seccion se hace un refuerzo de las tipos primitivos, funciones arreglos, objectos, etc.Un collback es una función que se pasa como argumento a otra función o metodo
+
+**type**:
+
+Un type es una definición de tipo personalizada que te permite describir cómo debe verse un dato.
 
 ```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+type Owner = "DC" | "Marvel";
+```
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+**enum**
+
+Es una forma de definir un conjunto de valores constantes con nombre, para representar opciones fijas y evitar usar “strings mágicos” o números sin significado en el código.
+
+```js
+enum Estado {
+  Activo,
+  Inactivo,
+  Suspendido
+}
+```
+
+Las enumeraciones `(enum)` sí se transpilan a JavaScript, mientras que las interfaces `(interface)` y los tipos `(type)` no pasan a JavaScript, ya que solo existen en tiempo de compilación para el tipado.
+
+## S4 - Primeros pasos en react.
+
+Se recomienda declarar las constantes fuera del componente de React cuando su valor no cambia. Esto se debe a que, cada vez que ocurre un cambio de estado, el componente se vuelve a renderizar. Al mantener las constantes, funciones o variables que no dependen del estado ni de las props fuera del componente, se evita su recreación innecesaria en cada render, mejorando así el rendimiento y la organización del código.
+
+### Estilos Css en JSX
+
+- Primera forma de aplicar estilos Css a un componente
+
+```js
+export function MyAwosemeApp() {
+  return (
+    <>
+      <p
+        style={{
+          backgroundColor: "#fafafa",
+          borderRadius: 10,
+          padding: 10,
+        }}
+      >
+        Hola mundo
+      </p>
+    </>
+  );
+}
+```
+
+- Segunda forma de aplicar estilos CSS.
+
+```js
+import type { CSSProperties } from "react"; // Para obtener el intelisense dentro del editor (VSC)
+
+const myStyles = {
+  backgroundColor: "#fafafa",
+  borderRadius: 10,
+  padding: 10,
+};
+export function MyAwosemeApp() {
+  return (
+    <>
+      <p style={myStyles}>Hola mundo</p>
+    </>
+  );
+}
+```
+
+### Eventos de los elementos
+
+**onClick**: es un evento que se ejecuta cuando el puntero del mouse entra en el área de un elemento HTML.
+
+```js
+function Boton() {
+  const handleMouseEnter = () => {
+    console.log("El mouse entró al botón");
+  };
+
+  return <button onMouseEnter={handleMouseEnter}>Pasa el mouse aquí</button>;
+}
+```
+
+**onMouseEnter**: es un evento que se ejecuta cuando el usuario hace clic sobre un elemento (con el mouse, touch o teclado).
+
+```js
+function Boton() {
+  const handleClick = () => {
+    alert("¡Botón clickeado!");
+  };
+
+  return <button onClick={handleClick}>Haz clic aquí</button>;
+}
 ```
