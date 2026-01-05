@@ -121,3 +121,45 @@ export function MyAwosemeApp() {
   );
 }
 ```
+
+## S5 - Pruebas automaticas - Unit testing
+
+No son una perdida de tiempo, vale la pena garantizar calidad, detectan errores, facilitan mantenimiento, aceleran desarrollo con integraciones continuas y despliegues seguros.
+
+### Tipos de pruebas
+
+**Unitarias**: Enfocada en partes atómicas.
+
+- Pruebas automaticas simples
+- Se recomienda no tener dependencias de otros componentes
+- Debe de ser especializada en la pieza que estamos probando.
+
+**Integración**: Como reaccionan varias piezas en conjunto?.
+
+- Como funcionan elementos en conjunto.
+- No deben de ser mayores a las unitarias
+
+**E2E - End to End**: Ejecuta todo un flujo continuo como si fuera el proceso que realizaría un usuario.
+
+- Un flujo aislado
+- Objetivo especifico.
+- Pruebas de casos improbables.
+
+Principalmente debemos de enfocarnos en las pruebas unitarias, empezando por la piezas más pequeñas y desacopladas.
+
+### Caracteristicas de las pruebas automaticas
+
+Toda prueba automatica debe de respetar lo siguiente:
+
+**Caracteristicas**:
+
+- Faciles de escribir
+- Faciles de leer
+- Rapidas
+- Flexibles
+
+### El triple A (AAA)
+
+- **Arranger (Arreglar)**: Importaciones, inicializaciones
+- **Act (Actuar)**: Aplicar estimulos, llamar metodos, simular clicks.
+- **Assert(Afirmar)**: Que debe de haber sucedido?
