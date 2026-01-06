@@ -289,3 +289,40 @@ test("renderiza correctamente el botón", () => {
   expect(screen.getByTestId("div-app")).toMatchSnapshot(); // Este data-testid="div-app" se le coloca a un div que envuelve todo el componente, la forma recomendad de hacerla es la primera forma.
 });
 ```
+
+**eventos**: Es una forma de similar clicks o cualquier accion de un usuario en el DOM virtual.
+
+```js
+import { fireEvent, render, screen } from "@testing-library/react";
+import { describe, expect, test } from "vitest";
+import { ItemCounter } from "./ItemCounter";
+
+describe("ItemCounter", () => {
+  test("should increase count when +1 button is pressed", () => {
+    const name = "Test item three";
+    const quantity = 1;
+
+    render(<ItemCounter name={name} quantity={quantity} />);
+
+    const [buttonAdd] = screen.getAllByRole("button");
+    console.log(buttonAdd.innerHTML);
+
+    fireEvent.click(buttonAdd);
+
+    expect(screen.getByText("2")).toBeDefined();
+  });
+
+  test("should decrease count when -1 button is pressed", () => {
+    const name = "Test item four";
+    const quantity = 5;
+
+    render(<ItemCounter name={name} quantity={quantity} />);
+
+    const [, buttonSubtract] = screen.getAllByRole("button");
+    console.log(buttonSubtract.innerHTML);
+
+    fireEvent.click(buttonSubtract);
+    expect(screen.getByText("4")).toBeDefined();
+  });
+});
+```
