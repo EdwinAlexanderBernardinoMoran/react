@@ -163,3 +163,24 @@ Toda prueba automatica debe de respetar lo siguiente:
 - **Arranger (Arreglar)**: Importaciones, inicializaciones
 - **Act (Actuar)**: Aplicar estimulos, llamar metodos, simular clicks.
 - **Assert(Afirmar)**: Que debe de haber sucedido?
+
+### Pruebas automaticas
+
+El archivo es recomendado que se llame de la siguiente forma `example.test.ts` es de tener en cuenta que el codigo de la prueba pueda que este malo, o puede que el codigo de la aplicacion cambio y este mala o puede que ambos esten bien o es de ajustar la prueba y ahi es donde se debe indagar y ver que es lo que esta saliendo mal.
+
+```js
+import { expect, test } from "vitest";
+import { add } from "./math.helper"; // Proviene de otro archivo
+
+test("should add two positives numbers", () => {
+  // 1. Arrange
+  const a = 1;
+  const b = 1;
+
+  // 2. Act
+  const result = add(a, b);
+
+  // 3. Assert
+  expect(result).toBe(a + b);
+});
+```
