@@ -26,7 +26,7 @@ export const ItemCounter = ({ name, quantity = 0 }: Props) => {
     <>
       <div className={styles.itemRow}>
         <span className={styles['item-text']} style={{
-          color: count === 0 ? 'red' : 'black'
+          color: count === 1 ? 'red' : 'black'
         }}>{ name }</span>
         <button onClick={handleAdd}>+1</button>
         <span>{ count }</span>

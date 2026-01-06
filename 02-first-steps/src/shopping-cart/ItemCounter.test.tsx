@@ -59,6 +59,19 @@ describe('ItemCounter', () => {
 
     fireEvent.click(buttonSubtract)
     expect(screen.getByText('0')).toBeDefined();
+  });
+
+  test('should change to red when count is 1', () => {
+    const name = 'Test item five';
+    const quantity = 1;
+
+    render(<ItemCounter name={name} quantity={quantity}/>);
+
+    const itemText = screen.getByText(name);
+    console.log(itemText.style.color);
+    
+
+    expect(itemText.style.color).toBe('red');
   })
 
 })
