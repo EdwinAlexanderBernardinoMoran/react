@@ -326,3 +326,75 @@ describe("ItemCounter", () => {
   });
 });
 ```
+
+**componentes ficticios - Mock componentes, argumentos especificos**
+
+El "`mocking`" es fundamental para las pruebas unitarias. Permite probar un componente de forma aislada, evitando que su prueba dependa del comportamiento o de las dependencias (ej. llamadas a API) de sus hijos.
+
+En esta sección se utilizan componentes ficticios (mocks) para validar:
+
+- Cuántas veces un componente es renderizado.
+- Qué propiedades (props) recibe en cada renderizado.
+
+Esta técnica es especialmente útil cuando un componente se renderiza dentro de un `map` o `forEach`, y queremos asegurarnos de que se invoque el número correcto de veces con los datos esperados.
+
+Para lograrlo, se utiliza la función `vi.mock` de Vitest, junto con un mock function `(vi.fn)` que nos permite espiar las llamadas al componente.
+
+```js
+import { render, screen } from "@testing-library/react";
+import { afterEach, describe, expect, test, vi } from "vitest";
+import { FirstStepsApp } from "./FirstStepsApp";
+
+// Se crea el componente
+const mockItemCounter = vi.fn((props: unknown) => {
+  return <div data-testid="ItemCounter" />;
+});
+
+// Se define una función mock que simula el comportamiento del componente ItemCounter. Luego se reemplaza el componente real por el mock usando vi.mock:
+vi.mock("./shopping-cart/ItemCounter", () => ({
+  ItemCounter: (props: unknown) => mockItemCounter(props),
+}));
+
+describe("FirstStepsApp", () => {
+  // Para evitar interferencias entre tests, se limpian todos los mocks después de cada ejecución
+  afterEach(() => {
+    vi.clearAllMocks();
+  });
+
+  // Toma de fotografia del componente
+  test("should match snapshot", () => {
+    const { container } = render(<FirstStepsApp />);
+
+    expect(container).toMatchSnapshot();
+  });
+
+  // Verificación del número de renderizados
+  test("should render the correct number of ItemCounter components", () => {
+    render(<FirstStepsApp />);
+
+    const itemCounters = screen.getAllByTestId("ItemCounter");
+    console.log(itemCounters.length);
+
+    expect(itemCounters.length).toBe(3);
+  });
+
+  // Validación de llamadas y argumentos
+  test("should render ItemCounter components with correct props", () => {
+    render(<FirstStepsApp />);
+
+    expect(mockItemCounter).toHaveBeenCalledTimes(3);
+    expect(mockItemCounter).toHaveBeenCalledWith({
+      name: "Nintendo Switch",
+      quantity: 10,
+    });
+    expect(mockItemCounter).toHaveBeenCalledWith({
+      name: "Pro Controller",
+      quantity: 20,
+    });
+    expect(mockItemCounter).toHaveBeenCalledWith({
+      name: "Super Smash",
+      quantity: 0,
+    });
+  });
+});
+```
