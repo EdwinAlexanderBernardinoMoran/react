@@ -25,7 +25,7 @@ const myStyles: CSSProperties = {
 export function MyAwosemeApp() {
     return (
         <>
-            <h1>{firstName}</h1>
+            <h1 data-testid="first-name-title">{firstName}</h1>
             <h3>{lastName}</h3>
 
             <p style={myStyles}>{favoriteGames.join(', ')}</p>

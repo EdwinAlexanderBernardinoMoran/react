@@ -122,6 +122,32 @@ export function MyAwosemeApp() {
 }
 ```
 
+### Eventos de los elementos
+
+**onClick**: es un evento que se ejecuta cuando el puntero del mouse entra en el área de un elemento HTML.
+
+```js
+function Boton() {
+  const handleMouseEnter = () => {
+    console.log("El mouse entró al botón");
+  };
+
+  return <button onMouseEnter={handleMouseEnter}>Pasa el mouse aquí</button>;
+}
+```
+
+**onMouseEnter**: es un evento que se ejecuta cuando el usuario hace clic sobre un elemento (con el mouse, touch o teclado).
+
+```js
+function Boton() {
+  const handleClick = () => {
+    alert("¡Botón clickeado!");
+  };
+
+  return <button onClick={handleClick}>Haz clic aquí</button>;
+}
+```
+
 ## S5 - Pruebas automaticas - Unit testing
 
 No son una perdida de tiempo, vale la pena garantizar calidad, detectan errores, facilitan mantenimiento, aceleran desarrollo con integraciones continuas y despliegues seguros.
@@ -172,15 +198,77 @@ El archivo es recomendado que se llame de la siguiente forma `example.test.ts` e
 import { expect, test } from "vitest";
 import { add } from "./math.helper"; // Proviene de otro archivo
 
-test("should add two positives numbers", () => {
-  // 1. Arrange
-  const a = 1;
-  const b = 1;
+describe("MyAwosomeApp", () => {
+  test("should add two positives numbers", () => {
+    // 1. Arrange
+    const a = 1;
+    const b = 1;
 
-  // 2. Act
-  const result = add(a, b);
+    // 2. Act
+    const result = add(a, b);
 
-  // 3. Assert
-  expect(result).toBe(a + b);
+    // 3. Assert
+    expect(result).toBe(a + b);
+  });
+});
+```
+
+### Pruebas sobre componentes de React
+
+Para hacer pruevas de componentes es necesario instalar otras dependencias para ver el funcionamiento similar o identico al DOM `Testing Library`. Se utiliza para las interacciones propiamente de los componentes como los clicks, etc. En este caso montaremos un componente similiar a cuando se ve en chrome.
+
+```shell
+npm install --save-dev @testing-library/react @testing-library/dom @types/react @types/react-dom
+```
+
+- Luego es de hacer un pequeño cambio en el archivo `vite.config.ts`
+
+```js
+import { defineConfig } from "vitest/config";
+import react from "@vitejs/plugin-react-swc";
+
+// https://vite.dev/config/
+export default defineConfig({
+  plugins: [react()],
+  test: {
+    environment: "jsdom",
+    globals: true,
+  },
+})``;
+```
+
+- Luego automaticamente se descargara el paquete `jsondom`
+- Todo esto hace un panorama similar o igual a lo que se muestra en las herramientas de desarrollo, se pueden acceder a un DOM virtual.
+
+**container**: Solo se actualiza cuando se manda a llamar la funcion `render`
+
+```js
+describe("MyAwosomeApp", () => {
+  test("should render firstName and lastName", () => {
+    const { container } = render(<MyAwosemeApp />);
+
+    const h1 = container.querySelector("h1");
+    const h3 = container.querySelector("h3");
+
+    expect(h1?.innerHTML).toContain("Edwin");
+    expect(h3?.innerHTML).toContain("Moran");
+    console.log(h1?.innerHTML);
+  });
+});
+```
+
+**screen**: No se actualiza cuando se manda a llamar la funcion `render` si no que tambien cuando sucede interaccion con el DOM como un click, etc.
+
+```js
+describle("MyAwosomeApp", () => {
+  test("should render firstName and lastName - screen", () => {
+    render(<MyAwosemeApp />);
+
+    screen.debug();
+
+    const h1 = screen.getByTestId("first-name-title"); // hace referencia a un data-testid con ese nombre dentro del componente
+    expect(h1.innerHTML).toContain("Edwin");
+    console.log(h1.innerHTML);
+  });
 });
 ```
