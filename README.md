@@ -272,3 +272,20 @@ describle("MyAwosomeApp", () => {
   });
 });
 ```
+
+**snapshot**: Un snapshot es una técnica de testing que permite guardar una “foto” del renderizado de un componente y compararla en ejecuciones futuras para detectar cambios inesperados en la UI.
+
+```js
+import { render } from "@testing-library/react";
+import Boton from "./Boton";
+
+test("renderiza correctamente el botón", () => {
+  const { container } = render(<Boton />);
+  expect(container).toMatchSnapshot();
+});
+
+test("renderiza correctamente el botón", () => {
+  render(<Boton />);
+  expect(screen.getByTestId("div-app")).toMatchSnapshot(); // Este data-testid="div-app" se le coloca a un div que envuelve todo el componente, la forma recomendad de hacerla es la primera forma.
+});
+```

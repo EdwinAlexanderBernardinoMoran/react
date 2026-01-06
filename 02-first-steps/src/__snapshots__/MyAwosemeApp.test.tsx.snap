@@ -1,0 +1,71 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`MyAwosomeApp > should match snapshot 1`] = `
+<div>
+  <div
+    data-testid="div-app"
+  >
+    <h1
+      data-testid="first-name-title"
+    >
+      Edwin
+    </h1>
+    <h3>
+      Moran
+    </h3>
+    <p>
+      4
+    </p>
+    <p
+      class="my-favorite-class"
+      style="background-color: rgb(250, 250, 250); border-radius: 10px; padding: 10px; margin-top: 10px;"
+    >
+      The Legend of Zelda: Breath of the Wild, God of War, Red Dead Redemption 2
+    </p>
+    <h1>
+      Active
+    </h1>
+    <p
+      style="background-color: rgb(250, 250, 250); border-radius: 10px; padding: 10px;"
+    >
+      12345
+      , 
+      New York
+    </p>
+  </div>
+</div>
+`;
+
+exports[`MyAwosomeApp > should match snapshot screen 1`] = `
+<div
+  data-testid="div-app"
+>
+  <h1
+    data-testid="first-name-title"
+  >
+    Edwin
+  </h1>
+  <h3>
+    Moran
+  </h3>
+  <p>
+    4
+  </p>
+  <p
+    class="my-favorite-class"
+    style="background-color: rgb(250, 250, 250); border-radius: 10px; padding: 10px; margin-top: 10px;"
+  >
+    The Legend of Zelda: Breath of the Wild, God of War, Red Dead Redemption 2
+  </p>
+  <h1>
+    Active
+  </h1>
+  <p
+    style="background-color: rgb(250, 250, 250); border-radius: 10px; padding: 10px;"
+  >
+    12345
+    , 
+    New York
+  </p>
+</div>
+`;

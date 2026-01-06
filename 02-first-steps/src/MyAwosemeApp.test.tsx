@@ -29,5 +29,17 @@ describe('MyAwosomeApp', () => {
     expect(h1.innerHTML).toContain('Edwin')
     console.log(h1.innerHTML);
     
+  });
+
+  test('should match snapshot', () => {
+    const { container } = render(<MyAwosemeApp/>);
+
+    expect(container).toMatchSnapshot();
+  })
+
+  test('should match snapshot screen', () => {
+    render(<MyAwosemeApp/>)
+    expect(screen.getByTestId('div-app')).toMatchSnapshot();
+    
   })
 })

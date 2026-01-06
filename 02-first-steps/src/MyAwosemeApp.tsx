@@ -24,11 +24,12 @@ const myStyles: CSSProperties = {
 
 export function MyAwosemeApp() {
     return (
-        <>
+        <div data-testid="div-app">
             <h1 data-testid="first-name-title">{firstName}</h1>
             <h3>{lastName}</h3>
-
-            <p style={myStyles}>{favoriteGames.join(', ')}</p>
+            
+            <p>{ 2 + 2 }</p>
+            <p className="my-favorite-class" style={myStyles}>{favoriteGames.join(', ')}</p>
 
             <h1>{isActive ? 'Active' : 'Inactive'}</h1>
             <p
@@ -38,6 +39,6 @@ export function MyAwosemeApp() {
                     padding: 10,
                 }}
             >{address.zipCode}, {address.city}</p>
-        </>
+        </div>
     )
 }
