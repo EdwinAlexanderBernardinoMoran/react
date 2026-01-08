@@ -13,8 +13,13 @@ export const GifsApp = () => {
     console.log(`Term clicked: ${term}`)
   }
 
-  const handleOnSearch = (term: string) => {
-    console.log(`Searching gifs with term: ${term}`)
+  const handleOnSearch = (query: string = '') => {
+    query = query.trim().toLowerCase()
+
+    if (query.length === 0 ) return;
+    
+    if (previousTems.includes(query)) return
+    setPreviousTems([query, ...previousTems].splice(0,7))
   }
 
   return (
