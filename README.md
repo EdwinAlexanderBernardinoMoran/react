@@ -6,6 +6,18 @@ React fue creado por Jordan Walke, un ingeniero de software de Facebook, y fue l
 
 React es una biblioteca de JavaScript de código abierto desarrollada por Facebook para construir interfaces de usuario interactivas y componentes reutilizables. Se enfoca en la creación de aplicaciones web de una sola página (SPA) y permite a los desarrolladores crear componentes que manejan su propio estado y se componen para crear interfaces complejas.
 
+**Ciclo de vida de renderizado de React**
+
+Son las fases por las que pasa un componente desde que nace hasta que muere (montaje, actualización y desmontaje), controladas por métodos que se ejecutan en momentos clave para manejar el estado y las propiedades, permitiendo a los desarrolladores controlar su comportamiento, realizar efectos secundarios (como peticiones a APIs) y optimizar la UI, usando Hooks como useEffect para componentes funcionales o métodos de clase en componentes tradicionales.
+
+**Debounce**
+
+Es una técnica de optimización que agrupa múltiples llamadas a una función en un corto período de tiempo en una sola, mejorando significativamente el rendimiento y la experiencia del usuario.
+
+**Mapper (Adaptador)**
+
+Hace que la aplicación sea más robusta y fácil de mantener. El resto de la aplicación trabaja con un modelo de datos consistente y propio, aislado de los cambios de fuentes externas.
+
 **Que problemas resuelve ?**
 
 - Manipulacion del DOM, hay que decir como y donde.
