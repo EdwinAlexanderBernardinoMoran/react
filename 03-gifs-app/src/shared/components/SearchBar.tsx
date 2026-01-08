@@ -1,4 +1,4 @@
-import { useState, type KeyboardEvent } from "react";
+import { useEffect, useState, type KeyboardEvent } from "react";
 
 interface SearchBarProps {
   placeholder?: string;
@@ -9,6 +9,17 @@ interface SearchBarProps {
 export const SearchBar = ({ placeholder = 'Search', buttonText, onQuery}: SearchBarProps) => {
 
   const [query, setQuery] = useState('')
+
+  // Implementación del debounce
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      onQuery(query)
+    }, 700);
+
+    return () => {
+      clearTimeout(timeoutId)
+    }
+  }, [query, onQuery])
 
   const handleSearch = () => {
     onQuery(query)
