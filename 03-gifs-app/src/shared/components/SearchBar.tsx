@@ -35,7 +35,6 @@ export const SearchBar = ({ placeholder = 'Search', buttonText, onQuery}: Search
   return (
     <>
       <div className="search-container">
-        <h1>{query}</h1>
         <input type="text" placeholder={placeholder} value={query} onChange={(event) => setQuery(event.target.value)} onKeyDown={handleKeyDown}/>
         <button onClick={handleSearch}>{buttonText}</button>
       </div>
