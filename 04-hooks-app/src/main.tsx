@@ -4,7 +4,8 @@ import { createRoot } from 'react-dom/client'
 // import { HooksApp } from './HooksApp'
 
 import './index.css'
-import { PokemonPage } from './connect-custom-hooks-to-each-other/PokemonPage'
+import { FocusScreen } from './useRef/FocusScreen'
+// import { PokemonPage } from './connect-custom-hooks-to-each-other/PokemonPage'
 // import { TrafficLightWithEffect } from './useEffect/TrafficLightWithEffect'
 // import { TrafficLight } from './useState/TrafficLight'
 
@@ -13,6 +14,8 @@ createRoot(document.getElementById('root')!).render(
     {/* <HooksApp /> */}
     {/* <TrafficLight /> */}
     {/* <TrafficLightWithEffect /> */}
-    <PokemonPage />
+    {/* <PokemonPage /> */}
+
+    <FocusScreen />
   </StrictMode>,
 )
