@@ -410,3 +410,11 @@ describe("FirstStepsApp", () => {
   });
 });
 ```
+
+## S9 - Profundizando Hooks
+
+**useState**: Es un hook de React que permite agregar estado a un componente funcional. El “estado” es información que puede cambiar con el tiempo y que hace que el componente se vuelva a renderizar cuando cambia.
+
+**useEffect**: Es un hook de React que permite ejecutar efectos secundarios en un componente funcional. Un `efecto secundario` es cualquier acción que ocurre fuera del render, como: `Llamadas a API, manipulacion del DOM, suscripciones, timers(setTimeout, setInterval)`
+
+- Por el momento no se aconseja que se mande funciones sin memorizar(Es otro hook de React) en los arreglos de dependencias de los effectos.
