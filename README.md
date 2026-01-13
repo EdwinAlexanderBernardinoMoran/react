@@ -14,6 +14,8 @@ Son las fases por las que pasa un componente desde que nace hasta que muere (mon
 
 Es una técnica de optimización que agrupa múltiples llamadas a una función en un corto período de tiempo en una sola, mejorando significativamente el rendimiento y la experiencia del usuario.
 
+**Custom Hook**: Son la herramienta principal en React para empaquetar y reutilizar lógica con estado. Esto permite que los componentes se enfoquen en cómo se ve la UI, mientras que la lógica compleja vive en el hook, pudiendo ser usada en múltiples componentes.
+
 **Mapper (Adaptador)**
 
 Hace que la aplicación sea más robusta y fácil de mantener. El resto de la aplicación trabaja con un modelo de datos consistente y propio, aislado de los cambios de fuentes externas.
@@ -415,6 +417,9 @@ describe("FirstStepsApp", () => {
 
 **useState**: Es un hook de React que permite agregar estado a un componente funcional. El “estado” es información que puede cambiar con el tiempo y que hace que el componente se vuelva a renderizar cuando cambia.
 
-**useEffect**: Es un hook de React que permite ejecutar efectos secundarios en un componente funcional. Un `efecto secundario` es cualquier acción que ocurre fuera del render, como: `Llamadas a API, manipulacion del DOM, suscripciones, timers(setTimeout, setInterval)`
+- Pasar una función (ej. setCount(prevCount => prevCount + 1)) es la forma recomendada para actualizar el estado cuando el nuevo valor se basa en el anterior. Esto asegura que siempre se esté trabajando con el valor más reciente del estado, evitando problemas en actualizaciones rápidas o por lotes
 
+**useEffect**: Es un hook de React que permite ejecutar efectos secundarios en un componente funcional. Un `efecto secundario` es cualquier acción que ocurre fuera del render, como: `Llamadas a API, manipulacion del DOM, suscripciones, timers(setTimeout, setInterval)`.
+
+- Al utilizar useEffect para manejar suscripciones o temporizadores (como un setInterval), el propósito fundamental de la función de limpieza que se retorna es para: Prevenir fugas de memoria (memory leaks) limpiando los recursos (ej. cancelando el temporizador) antes de que el componente se desmonte o el efecto se vuelva a ejecutar. Si no se limpiaran los temporizadores o suscripciones, seguirían ejecutándose en segundo plano incluso después de que el componente haya sido eliminado de la UI, causando fugas de memoria y errores.
 - Por el momento no se aconseja que se mande funciones sin memorizar(Es otro hook de React) en los arreglos de dependencias de los effectos.
