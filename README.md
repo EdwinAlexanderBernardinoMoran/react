@@ -585,3 +585,95 @@ const total = useMemo(() => {
   return items.reduce((acc, item) => acc + item.price, 0);
 }, [items]);
 ```
+
+**useOptimistic**: es un hook introducido en React 18 que permite manejar actualizaciones optimistas en la interfaz. Una actualización optimista muestra inmediatamente un cambio en la UI antes de que la operación real (por ejemplo, una petición a un servidor) se complete.
+
+- El estado inicial
+- Una función transformadora que describe cómo debería verse el estado mientras la operación está “pendiente”
+
+```js
+const [optmisticComments, addOptmisticComment] = useOptimistic(
+  comments,
+  (currentComments, newCommentText: string) => {
+    lastId++;
+    return [
+      ...currentComments,
+      {
+        id: lastId,
+        text: newCommentText,
+        optimistic: true,
+      },
+    ];
+  }
+);
+
+const handleAddComment = async (formData: FormData) => {
+
+  const messageText = formData.get('post-message') as string
+  console.log('Nuevo comentario', messageText);
+
+  addOptmisticComment(messageText);
+};
+```
+
+**useTransition**: Es un hook de React 18 que permite marcar ciertas actualizaciones de estado como transiciones, es decir, actualizaciones que no son urgentes y pueden ejecutarse sin bloquear la interfaz.
+
+Es útil para mantener la UI suave y responsiva, incluso cuando hay renders pesados o cálculos costosos.
+
+- isPending → indica si la transición aún está en proceso
+- startTransition → una función para envolver la actualización “no urgente”
+
+```js
+const [isPending, startTransition] = useTransition();
+
+const handleAddComment = async (formData: FormData) => {
+
+  const messageText = formData.get('post-message') as string
+  console.log('Nuevo comentario', messageText);
+
+  // Hook Anterior useOptimistic
+  addOptmisticComment(messageText);
+
+  // Hook Anterior useTransition
+  startTransition( async () => {
+    // Simular peticion al servidor
+    await new Promise((resolve) => setTimeout(resolve, 3000))
+
+    // setComments((prev) => [...prev, {
+    //     id: new Date().getTime(),
+    //     text: messageText,
+    // }])
+
+    // Revertir cambios cuando falle
+    setComments((prev) => prev)
+    toast('Error al agregar el comentario', {
+      description: 'Intente nuevamente',
+      duration: 10_000,
+      position: 'top-right',
+      action: {
+        label: 'Cerrar',
+        onClick: () => toast.dismiss()
+      }
+    })
+  })
+};
+```
+
+permite manejar actualizaciones de estado de baja prioridad sin bloquear la interfaz. Mejora la experiencia del usuario en operaciones grandes al mantener la UI fluida mientras React procesa el render.
+
+useOptimistic y useTransition se complementan porque resuelven dos partes diferentes del mismo problema: hacer que una UI se sienta rápida, suave y responsiva cuando hay acciones asíncronas o pesadas.
+
+`useOptimistic` = Actualiza la UI al instante
+
+- Muestra cambios inmediatamente, sin esperar al servidor.
+- Ideal para experiencias rápidas (likes, añadir items, enviar formularios, etc.).
+
+Ejemplo: el usuario hace clic en "Like" → la UI pone el like inmediatamente.
+
+`useTransition` = Mantiene la UI fluida mientras se procesa
+
+- Marca las actualizaciones como no urgentes.
+- Evita bloqueos o lags cuando el render lleva tiempo.
+- Permite mostrar estado: isPending.
+
+Ejemplo: mientras se sincroniza con el servidor, React sigue dejando la UI interactiva.
