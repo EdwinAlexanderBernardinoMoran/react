@@ -13,8 +13,17 @@ interface TaskState{
 
 export type TaskAction = 
 | {type: 'ADD_TODO', payload: string}
-| {type: 'TOOGLE_TODO', payload: number}
+| {type: 'TOGGLE_TODO', payload: number}
 | {type: 'DELETE_TODO', payload: number}
+
+export const getTasksInitialState = (): TaskState => {
+    return {
+        todos: [],
+        length: 0,
+        completed: 0,
+        pending: 0,
+    }
+}
 
 export const tasksReducer = (state: TaskState, action: TaskAction): TaskState => {
     switch (action.type) {
@@ -27,11 +36,11 @@ export const tasksReducer = (state: TaskState, action: TaskAction): TaskState =>
             return {
                 ...state,
                 todos: [...state.todos, newTodo],
-                length: state.todos.length,
+                length: state.todos.length + 1,
                 pending: state.pending + 1,
             };
         }
-        case 'TOOGLE_TODO': {
+        case 'TOGGLE_TODO': {
 
             // Crear un nuevo array con el todo actualizado
             const updatadTodos = state.todos.map( todo => {
@@ -44,7 +53,6 @@ export const tasksReducer = (state: TaskState, action: TaskAction): TaskState =>
             return {
                 ...state,
                 todos: updatadTodos,
-                length: state.todos.length,
                 completed: updatadTodos.filter(todo => todo.completed).length,
                 pending: updatadTodos.filter(todo => !todo.completed).length,
             }
