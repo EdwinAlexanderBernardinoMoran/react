@@ -519,3 +519,69 @@ dispatch({ type: "increment" });
 - Validar datos antes de guardarlos en base de datos
 - Asegurar el tipo y formato de props en React
 - Crear APIs con validación automática (Next.js, Express, Nest, etc.)
+
+**memo**:
+
+- Cada vez que el componente se renderiza, las funciones se vuelven a crear, obteniendo un nuevo espacio en memoria. Esto significa que, aunque usemos memo en los componentes `MyTitle y MySubtitle`, estos se volverán a renderizar, ya que la función pasada como prop no es la misma referencia que antes.
+
+```js
+import { memo } from "react";
+
+interface Props {
+  subTitle: string;
+  callMyApi: () => void;
+}
+
+export const MySubTitle = memo(({ subTitle, callMyApi }: Props) => {
+  console.log("Tarea pesada");
+
+  console.log("My sub-title re-render");
+
+  return (
+    <>
+      <h6 className="text-2xl font-bold">{subTitle}</h6>
+      <button
+        className="bg-indigo-500 text-white px-2 py-1 rounded-md cursor-pointer"
+        onClick={callMyApi}
+      >
+        Llamar a funcion
+      </button>
+    </>
+  );
+});
+```
+
+El hook `useCallback` soluciona este problema al memorizar la función, evitando que se cree una nueva referencia en cada render. De esta manera, los componentes envueltos en memo no se vuelven a renderizar innecesariamente.
+
+```js
+import { useState } from "react";
+import { MyTitle } from "./ui/MyTitle";
+import { MySubTitle } from "./ui/MySubTitle";
+
+export const MemoHook = () => {
+  const handleMyApi = () => {
+    console.log("Llamar a mi API");
+  };
+};
+```
+
+**useCallback**: Es un hook de React que sirve para memorizar funciones, evitando que se vuelvan a crear en cada render del componente.
+
+```js
+const manejarClick = useCallback(() => {
+  console.log("Click");
+}, []);
+```
+
+memoriza una función para que no cambie su referencia entre renders, a menos que cambien sus dependencias. Útil cuando pasas funciones a componentes hijos optimizados con memo.
+
+**useMemo**: Es un hook de React que memoriza el resultado de un cálculo para evitar volver a ejecutarlo en cada render.
+
+- Una función → que devuelve un valor calculado
+- Un arreglo de dependencias → determina cuándo recalcular
+
+```js
+const total = useMemo(() => {
+  return items.reduce((acc, item) => acc + item.price, 0);
+}, [items]);
+```
