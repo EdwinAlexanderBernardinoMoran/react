@@ -423,3 +423,99 @@ describe("FirstStepsApp", () => {
 
 - Al utilizar useEffect para manejar suscripciones o temporizadores (como un setInterval), el propósito fundamental de la función de limpieza que se retorna es para: Prevenir fugas de memoria (memory leaks) limpiando los recursos (ej. cancelando el temporizador) antes de que el componente se desmonte o el efecto se vuelva a ejecutar. Si no se limpiaran los temporizadores o suscripciones, seguirían ejecutándose en segundo plano incluso después de que el componente haya sido eliminado de la UI, causando fugas de memoria y errores.
 - Por el momento no se aconseja que se mande funciones sin memorizar(Es otro hook de React) en los arreglos de dependencias de los effectos.
+
+**Patron reducer**: Es una forma de manejar el estado de una aplicación de manera estructurada, especialmente cuando el estado es complejo o tiene muchas acciones posibles.
+
+Se basa en una función llamada reducer, que recibe:
+
+- El estado actual
+- Una acción (qué quieres hacer)
+
+Y devuelve un nuevo estado.
+
+El flujo del patrón es:
+
+- Se dispara una acción → { type: "increment" }
+- El reducer recibe la acción y el estado actual
+- Calcula y devuelve el nuevo estado
+- La interfaz se actualiza automáticamente
+
+```js
+export const tasksReducer = (
+  state: TaskState,
+  action: TaskAction
+): TaskState => {
+  switch (action.type) {
+    case "ADD_TODO": {
+      const newTodo: Todo = {
+        id: Date.now(),
+        text: action.payload.trim(),
+        completed: false,
+      };
+      return {
+        ...state,
+        todos: [...state.todos, newTodo],
+        length: state.todos.length + 1,
+        pending: state.pending + 1,
+      };
+    }
+    case "TOGGLE_TODO": {
+      // Crear un nuevo array con el todo actualizado
+      const updatadTodos = state.todos.map((todo) => {
+        if (todo.id === action.payload) {
+          return { ...todo, completed: !todo.completed };
+        }
+        return todo;
+      });
+
+      return {
+        ...state,
+        todos: updatadTodos,
+        completed: updatadTodos.filter((todo) => todo.completed).length,
+        pending: updatadTodos.filter((todo) => !todo.completed).length,
+      };
+    }
+    case "DELETE_TODO": {
+      const currentTodos = state.todos.filter(
+        (todo) => todo.id !== action.payload
+      );
+
+      return {
+        ...state,
+        todos: currentTodos,
+        length: currentTodos.length,
+        completed: currentTodos.filter((todo) => todo.completed).length,
+        pending: currentTodos.filter((todo) => !todo.completed).length,
+      };
+    }
+
+    default:
+      return state;
+  }
+};
+```
+
+El patrón Reducer organiza cómo cambia el estado usando acciones y una función pura. Es ideal para manejar estados complejos de forma clara y predecible.
+
+**useReducer**: Ws un hook de React que permite manejar estados complejos utilizando el patrón Reducer.
+Es una alternativa a useState cuando necesitas gestionar múltiples acciones o transiciones de estado más estructuradas.
+
+- Un reducer → una función que decide cómo cambia el estado.
+- Un estado inicial.
+
+El gran beneficio de useReducer es centralizar la lógica de estado. Cuando una acción (como "enviar respuesta" en el juego de palabras) necesita modificar la puntuación, los errores, la palabra actual y el estado del juego, un reducer lo maneja en un solo lugar de forma predecible y organizada.
+
+```js
+const [state, dispatch] = useReducer(tasksReducer, getTasksInitialState());
+
+// Llamas acciones asi
+dispatch({ type: "increment" });
+```
+
+**Validadores de objetos - Zod**: Es una librería de validación de datos en JavaScript/TypeScript que permite definir esquemas (schemas) para validar objetos, strings, números, arrays y más. Se usa para asegurarte de que los datos que recibes (formularios, APIs, props, etc.) tengan el formato correcto antes de usarlos.
+
+- Validar formularios
+- Validar datos recibidos de un API
+- Validar datos antes de guardarlos en base de datos
+- Asegurar el tipo y formato de props en React
+- Crear APIs con validación automática (Next.js, Express, Nest, etc.)
