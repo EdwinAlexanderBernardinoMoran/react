@@ -25,6 +25,7 @@ export const UserContextProvider = ({children}: PropsWithChildren) => {
         const user = users.find(user => user.id === id);
         if (!user) {
             console.log(`User not found ${id}`);
+            setUser(null);
             setAuthStatus("not-authenticated");
             return false;
         };
@@ -46,7 +47,10 @@ export const UserContextProvider = ({children}: PropsWithChildren) => {
 
         if (storedUserId) {
             handleLogin(+storedUserId)
+            return
         }
+
+        handleLogout();
     }, [])
 
     return <UserContext value={{
