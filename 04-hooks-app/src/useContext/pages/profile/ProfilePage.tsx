@@ -1,10 +1,17 @@
 import { Button } from "@/components/ui/button"
 import { UserContext } from "@/useContext/context/UserContext"
 import { useContext } from "react"
+import { useNavigate } from "react-router";
 
 export const ProfilePage = () => {
 
-  const {user} = useContext(UserContext);
+  const {user, logout} = useContext(UserContext);
+  const navigation = useNavigate();
+  
+  const handleLogout = () => {
+    logout();
+    navigation('/')
+  }
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
@@ -15,7 +22,7 @@ export const ProfilePage = () => {
         {JSON.stringify(user, null, 2)}
       </pre>
 
-      <Button variant="destructive">Go out</Button>
+      <Button variant="destructive" onClick={handleLogout}>Go out</Button>
     </div>
   )
 }
