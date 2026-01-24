@@ -679,3 +679,13 @@ Ejemplo: el usuario hace clic en "Like" → la UI pone el like inmediatamente.
 Ejemplo: mientras se sincroniza con el servidor, React sigue dejando la UI interactiva.
 
 **suspense**: Correcto. <Suspense> te permite desacoplar el estado de carga de tus componentes. Envuelves un componente asíncrono en <Suspense> y le proporcionas una prop fallback. React mostrará el fallback hasta que el componente hijo resuelva su promesa y esté listo para renderizarse.
+
+## S12 - Use Context
+
+**prop drilling**: Es la práctica de pasar datos a través de varios niveles de componentes anidados. Context API lo soluciona permitiendo que los componentes accedan a los datos directamente. Obliga a componentes intermedios a recibir y pasar props que no utilizan, solo para que un descendiente pueda acceder a ellas. El Context API crea un "túnel" directo desde el proveedor de datos hasta el consumidor, sin importar cuántos niveles haya en medio.
+
+**RouterProvider o UserContextProvider**: Funcion principal envolver una sección del árbol de componentes para hacer que cierta información (estado o funciones) esté disponible para todos los componentes descendientes de él.
+
+**api use**: La API use es más flexible porque, al no ser un hook, puede ser llamada dentro de condicionales y bucles. Los hooks tienen reglas estrictas (solo se pueden llamar en el nivel superior de un componente). La API use no tiene estas restricciones, lo que permite leer un contexto de forma condicional, por ejemplo, dentro de un if, haciendo el código más limpio en ciertos escenarios
+
+**lógica principal de un componente PrivateRoute**: Verifica el estado de autenticación desde el contexto; si el usuario está autenticado, renderiza el componente de la página, de lo contrario, redirige al usuario a la página de login.

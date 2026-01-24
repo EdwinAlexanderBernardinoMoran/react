@@ -1,4 +1,4 @@
-import { StrictMode, Suspense } from 'react'
+import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { Toaster } from 'sonner'
 
@@ -6,8 +6,8 @@ import { Toaster } from 'sonner'
 
 import './index.css'
 // import { InstagromApp } from './useOptimistic/InstagromApp'
-import { ClientInfomation } from './use-suspense/ClientInfomation'
-import { getUserAction } from './use-suspense/api/get-user.action'
+// import { ClientInfomation } from './use-suspense/ClientInfomation'
+// import { getUserAction } from './use-suspense/api/get-user.action'
 // import { MemoCounter } from './memos/MemoCounter'
 // import { FocusScreen } from './useRef/FocusScreen'
 // import { TasksApp } from './useReducer/TaskApp'
@@ -15,6 +15,7 @@ import { getUserAction } from './use-suspense/api/get-user.action'
 // import { MemoHook } from './memos/MemoHook'
 // import { PokemonPage } from './connect-custom-hooks-to-each-other/PokemonPage'
 // import { TrafficLightWithEffect } from './useEffect/TrafficLightWithEffect'
+import { ProfessionalApp } from './useContext/ProfessionalApp';
 // import { TrafficLight } ftoastrom './useState/TrafficLight'
 
 createRoot(document.getElementById('root')!).render(
@@ -32,12 +33,17 @@ createRoot(document.getElementById('root')!).render(
 
     {/* <MemoCounter/> */}
     {/* <InstagromApp /> */}
-    <Suspense fallback={
+
+
+    {/* <Suspense fallback={
       <div className='bg-gradient flex flex-col'>
         <h1 className='text-2xl'>Cargando ...</h1>
       </div>
     }>
       <ClientInfomation getUser={getUserAction(1000)}/>
-    </Suspense>
+    </Suspense> */}
+
+
+      <ProfessionalApp />
   </StrictMode>,
 )
