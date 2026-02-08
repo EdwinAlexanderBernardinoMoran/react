@@ -16,6 +16,9 @@ export const HomePage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const activeTab = searchParams.get("tab") ?? "all";
+  const page = searchParams.get("page") ?? "1";
+  const limit = searchParams.get("limit") ?? "6";
+
   const selectedTab = useMemo(() => {
     const validTabs: ActiveTab[] = ["all", "favorites", "heroes", "villains"];
     return validTabs.includes(activeTab as ActiveTab) ? (activeTab as ActiveTab) : "all";
@@ -23,7 +26,7 @@ export const HomePage = () => {
 
   const { data: heroesResponse } = useQuery({
     queryKey: ['heroes'],
-    queryFn: () => getHeroesByPageAction(),
+    queryFn: () => getHeroesByPageAction(+page, +limit),
     staleTime: 1000 * 60 * 5, // 5 minutes
   });
 
