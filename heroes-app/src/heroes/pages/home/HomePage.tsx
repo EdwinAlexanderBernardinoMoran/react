@@ -11,10 +11,10 @@ import { useQueryParameters } from "@/heroes/hooks/useQueryParameters";
 
 export const HomePage = () => {
 
-  const { page, limit, selectedTab, setSearchParams } = useQueryParameters();
+  const { page, limit, category, selectedTab, setSearchParams } = useQueryParameters();
   // Cuando la funcion que esta dentro de useQuery recibe argumentos, esos argumentos tienen que ser parte del queryKey, para que react-query sepa cuando volver a ejecutar la consulta. En este caso, cada vez que cambie el valor de page o limit, se volvera a ejecutar la consulta para obtener los heroes de esa pagina y con ese limite.
 
-  const { data: heroesResponse } = usePaginatedHero(+page, +limit);
+  const { data: heroesResponse } = usePaginatedHero(+page, +limit, category);
   const { data: summary } = useHeroSummary();
 
   return (
@@ -37,6 +37,8 @@ export const HomePage = () => {
           <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="all" onClick={() => setSearchParams((prev) => {
               prev.set("tab", "all");
+              prev.set("category", "all");
+              prev.set("page", "1");
               return prev
             })}>
               All Characters {summary?.totalHeroes}
@@ -53,6 +55,9 @@ export const HomePage = () => {
             </TabsTrigger>
             <TabsTrigger value="heroes" onClick={() => setSearchParams((prev) => {
               prev.set("tab", "heroes");
+              prev.set("category", "hero");
+              prev.set("page", "1");
+
               return prev
             })}>
               Heroes {summary?.heroCount}
@@ -61,6 +66,9 @@ export const HomePage = () => {
               value="villains"
               onClick={() => setSearchParams((prev) => {
                 prev.set("tab", "villains");
+                prev.set("category", "villain");
+                prev.set("page", "1");
+
                 return prev
               })}
             >
@@ -82,13 +90,13 @@ export const HomePage = () => {
           <TabsContent value="heroes">
             {/* Content for Heroes */}
             <h1>Heroes</h1>
-            <HeroGrid heroes={[]} />
+            <HeroGrid heroes={heroesResponse?.heroes ?? []} />
           </TabsContent>
 
           <TabsContent value="villains">
             {/* Content for Villains */}
             <h1>Villains</h1>
-            <HeroGrid heroes={[]} />
+            <HeroGrid heroes={heroesResponse?.heroes ?? []} />
           </TabsContent>
         </Tabs>
 

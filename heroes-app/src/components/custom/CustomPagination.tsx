@@ -8,6 +8,8 @@ interface CustomPaginationProps {
 
 export const CustomPagination = ({ totalPages }: CustomPaginationProps) => {
     const [searchParams, setSearchParams] = useSearchParams();
+    console.log("Parameters Paginarion", searchParams);
+
 
     const queryPage = searchParams.get("page") ?? "1";
     const page = isNaN(Number(queryPage)) ? 1 : Number(queryPage);
