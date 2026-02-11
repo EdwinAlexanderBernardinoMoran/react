@@ -24,8 +24,10 @@ export const HomePage = () => {
     return validTabs.includes(activeTab as ActiveTab) ? (activeTab as ActiveTab) : "all";
   }, [activeTab]);
 
+  // Cuando la funcion que esta dentro de useQuery recibe argumentos, esos argumentos tienen que ser parte del queryKey, para que react-query sepa cuando volver a ejecutar la consulta. En este caso, cada vez que cambie el valor de page o limit, se volvera a ejecutar la consulta para obtener los heroes de esa pagina y con ese limite.
+
   const { data: heroesResponse } = useQuery({
-    queryKey: ['heroes'],
+    queryKey: ['heroes', { page, limit }],
     queryFn: () => getHeroesByPageAction(+page, +limit),
     staleTime: 1000 * 60 * 5, // 5 minutes
   });
@@ -109,7 +111,7 @@ export const HomePage = () => {
         {/* <HeroGrid /> */}
 
         {/* Pagination */}
-        <CustomPagination totalPages={8} />
+        <CustomPagination totalPages={heroesResponse?.pages ?? 1} />
       </>
     </>
   );
