@@ -689,3 +689,26 @@ Ejemplo: mientras se sincroniza con el servidor, React sigue dejando la UI inter
 **api use**: La API use es más flexible porque, al no ser un hook, puede ser llamada dentro de condicionales y bucles. Los hooks tienen reglas estrictas (solo se pueden llamar en el nivel superior de un componente). La API use no tiene estas restricciones, lo que permite leer un contexto de forma condicional, por ejemplo, dentro de un if, haciendo el código más limpio en ciertos escenarios
 
 **lógica principal de un componente PrivateRoute**: Verifica el estado de autenticación desde el contexto; si el usuario está autenticado, renderiza el componente de la página, de lo contrario, redirige al usuario a la página de login.
+
+
+## S14 - Single Page Application - SPA
+
+- **principal ventaja de utilizar los "query parameters" del URL para gestionar el estado de la aplicación** El estado en el URL permite guardar el "punto exacto" en el que se encuentra el usuario, algo que useState no puede hacer por sí solo ya que su estado vive en la memoria y se reinicia con cada recarga de la página.
+
+- **Propósito principal de TanStack Query**: Gestionar el "estado del servidor", simplificando enormemente la lógica de caché, los estados de carga/error y los reintentos de peticiones asíncronas. TanStack Query abstrae toda la lógica compleja que rodea las peticiones de datos, permitiendo que el desarrollador simplemente "solicite" la data y la librería se encargue de todo lo demás (caching, re-fetching, etc.).
+
+- **Opción staleTime**: Controla el tiempo durante el cual una petición de datos se considera "fresca". Durante este período, no se volverá a solicitar la data a la red, sino que se servirá directamente del caché.
+
+- En TanStack Query, es fundamental que cualquier argumento que utilice la función de `queryFn` (como un ID de página o una categoría de filtro) sea incluido en el queryKey porque lo utiliza el queryKey para cachear los datos. Si la clave no cambia cuando cambian los argumentos, se devolverán datos incorrectos del caché.
+
+- Para crear una ruta dinámica en React Router que capture un valor del URL (como un slug o id), la sintaxis que se usa en la definición del path y el hook se usa en el componente para leer ese valor es de la siguiente manera:
+
+```js
+path="/heroes/:idSlug" // y se lee con el hook useParams.
+```
+
+- **hook useNavigate**` devuelve una función que permite realizar la navegación de forma programática (imperativa), por ejemplo, como respuesta a un evento onClick de un botón o después de que se complete una operación asíncrona.
+
+- Cuando una API de paginación utiliza offset en lugar de page representa el número de ítems a saltar y se calcula como (page - 1) * limit.
+
+- Por defecto, `TanStack Query` reintenta las peticiones fallidas 3 veces. Establecer `retry: false` desactiva este comportamiento, lo cual es útil para errores como 404, donde el recurso simplemente no existe y reintentar no tiene sentido.
