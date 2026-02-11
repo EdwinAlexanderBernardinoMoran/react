@@ -1,36 +1,21 @@
-import { useQuery } from "@tanstack/react-query";
-import { useSearchParams } from "react-router";
-
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CustomJumbotron } from "@/components/custom/CustomJumbotron";
 import { HeroStats } from "@/heroes/components/HeroStats";
 import { HeroGrid } from "@/heroes/components/HeroGrid";
 import { CustomPagination } from "@/components/custom/CustomPagination";
 import { CustomBreadcrumbs } from "@/components/custom/CustomBreadcrumbs";
-import { getHeroesByPageAction } from "@/heroes/actions/get-heroes-by-page.action";
-import { useMemo } from "react";
 
-type ActiveTab = "all" | "favorites" | "heroes" | "villains";
+import { useHeroSummary } from "@/heroes/hooks/useHeroSummary";
+import { usePaginatedHero } from "@/heroes/hooks/usePaginatedHero";
+import { useQueryParameters } from "@/heroes/hooks/useQueryParameters";
 
 export const HomePage = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
 
-  const activeTab = searchParams.get("tab") ?? "all";
-  const page = searchParams.get("page") ?? "1";
-  const limit = searchParams.get("limit") ?? "6";
-
-  const selectedTab = useMemo(() => {
-    const validTabs: ActiveTab[] = ["all", "favorites", "heroes", "villains"];
-    return validTabs.includes(activeTab as ActiveTab) ? (activeTab as ActiveTab) : "all";
-  }, [activeTab]);
-
+  const { page, limit, selectedTab, setSearchParams } = useQueryParameters();
   // Cuando la funcion que esta dentro de useQuery recibe argumentos, esos argumentos tienen que ser parte del queryKey, para que react-query sepa cuando volver a ejecutar la consulta. En este caso, cada vez que cambie el valor de page o limit, se volvera a ejecutar la consulta para obtener los heroes de esa pagina y con ese limite.
 
-  const { data: heroesResponse } = useQuery({
-    queryKey: ['heroes', { page, limit }],
-    queryFn: () => getHeroesByPageAction(+page, +limit),
-    staleTime: 1000 * 60 * 5, // 5 minutes
-  });
+  const { data: heroesResponse } = usePaginatedHero(+page, +limit);
+  const { data: summary } = useHeroSummary();
 
   return (
     <>
@@ -54,7 +39,7 @@ export const HomePage = () => {
               prev.set("tab", "all");
               return prev
             })}>
-              All Characters (16)
+              All Characters {summary?.totalHeroes}
             </TabsTrigger>
             <TabsTrigger
               value="favorites"
@@ -70,7 +55,7 @@ export const HomePage = () => {
               prev.set("tab", "heroes");
               return prev
             })}>
-              Heroes (12)
+              Heroes {summary?.heroCount}
             </TabsTrigger>
             <TabsTrigger
               value="villains"
@@ -79,7 +64,7 @@ export const HomePage = () => {
                 return prev
               })}
             >
-              Villains (2)
+              Villains {summary?.villainCount}
             </TabsTrigger>
           </TabsList>
 
