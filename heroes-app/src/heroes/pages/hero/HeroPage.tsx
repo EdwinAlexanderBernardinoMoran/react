@@ -58,7 +58,7 @@ export const HeroPage = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header Banner */}
-      <div className="bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900 text-white">
+      <div className="bg-linear-to-r from-slate-900 via-blue-900 to-slate-900 text-white">
         <div className="max-w-7xl mx-auto px-6 py-12">
           <div className="flex flex-col md:flex-row items-center gap-8">
             <div className="relative">
@@ -244,7 +244,7 @@ export const HeroPage = () => {
                   {superheroData.powers.map((power, index) => (
                     <div
                       key={index}
-                      className="bg-gradient-to-r from-blue-50 to-indigo-50 p-4 rounded-lg border border-blue-200"
+                      className="bg-linear-to-r from-blue-50 to-indigo-50 p-4 rounded-lg border border-blue-200"
                     >
                       <div className="flex items-center gap-3">
                         <div className="bg-blue-500 p-2 rounded-full">
