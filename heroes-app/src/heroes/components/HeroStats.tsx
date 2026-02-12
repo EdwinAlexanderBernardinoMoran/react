@@ -3,14 +3,13 @@ import { Heart, Trophy, Users, Zap } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { HeroStatCard } from "./HeroStatCard"
 import { useHeroSummary } from "../hooks/useHeroSummary"
+import { use } from "react";
+import { FavoriteHeroContext } from "../context/FavoriteHeroContext";
 
-interface HeroStatsProps {
-    favoriteCount: number;
-}
-
-export const HeroStats = ({ favoriteCount }: HeroStatsProps) => {
+export const HeroStats = () => {
 
     const { data: summary } = useHeroSummary();
+    const { favoriteCount } = use(FavoriteHeroContext);
 
     if (!summary) {
         return null;

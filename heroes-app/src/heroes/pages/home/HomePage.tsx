@@ -30,7 +30,7 @@ export const HomePage = () => {
         <CustomBreadcrumbs currentPage="Heroes" />
 
         {/* Stats Dashboard */}
-        <HeroStats favoriteCount={favoriteCount} />
+        <HeroStats />
 
         {/* Tabs */}
         <Tabs value={selectedTab} className="mb-8">
