@@ -1,13 +1,13 @@
-import { useMemo } from "react";
+import { use, useMemo } from "react";
 import { useSearchParams } from "react-router";
+import { FavoriteHeroContext } from "../context/FavoriteHeroContext";
 
 type ActiveTab = "all" | "favorites" | "heroes" | "villains";
 
 export const useQueryParameters = () => {
 
     const [searchParams, setSearchParams] = useSearchParams();
-    console.log("Parameters Hook", searchParams);
-
+    const { favoriteCount, favorites } = use(FavoriteHeroContext);
 
     const activeTab = searchParams.get("tab") ?? "all";
     const page = searchParams.get("page") ?? "1";
@@ -24,6 +24,8 @@ export const useQueryParameters = () => {
         limit,
         category,
         selectedTab,
+        favoriteCount,
+        favorites,
 
         setSearchParams
     }

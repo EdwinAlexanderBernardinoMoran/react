@@ -11,7 +11,7 @@ import { useQueryParameters } from "@/heroes/hooks/useQueryParameters";
 
 export const HomePage = () => {
 
-  const { page, limit, category, selectedTab, setSearchParams } = useQueryParameters();
+  const { page, limit, category, selectedTab, favoriteCount, favorites, setSearchParams } = useQueryParameters();
   // Cuando la funcion que esta dentro de useQuery recibe argumentos, esos argumentos tienen que ser parte del queryKey, para que react-query sepa cuando volver a ejecutar la consulta. En este caso, cada vez que cambie el valor de page o limit, se volvera a ejecutar la consulta para obtener los heroes de esa pagina y con ese limite.
 
   const { data: heroesResponse } = usePaginatedHero(+page, +limit, category);
@@ -30,7 +30,7 @@ export const HomePage = () => {
         <CustomBreadcrumbs currentPage="Heroes" />
 
         {/* Stats Dashboard */}
-        <HeroStats />
+        <HeroStats favoriteCount={favoriteCount} />
 
         {/* Tabs */}
         <Tabs value={selectedTab} className="mb-8">
@@ -41,7 +41,7 @@ export const HomePage = () => {
               prev.set("page", "1");
               return prev
             })}>
-              All Characters {summary?.totalHeroes}
+              All Characters ({summary?.totalHeroes})
             </TabsTrigger>
             <TabsTrigger
               value="favorites"
@@ -51,7 +51,7 @@ export const HomePage = () => {
                 return prev
               })}
             >
-              Favorites (3)
+              Favorites ({favoriteCount})
             </TabsTrigger>
             <TabsTrigger value="heroes" onClick={() => setSearchParams((prev) => {
               prev.set("tab", "heroes");
@@ -60,7 +60,7 @@ export const HomePage = () => {
 
               return prev
             })}>
-              Heroes {summary?.heroCount}
+              Heroes ({summary?.heroCount})
             </TabsTrigger>
             <TabsTrigger
               value="villains"
@@ -72,7 +72,7 @@ export const HomePage = () => {
                 return prev
               })}
             >
-              Villains {summary?.villainCount}
+              Villains ({summary?.villainCount})
             </TabsTrigger>
           </TabsList>
 
@@ -84,7 +84,7 @@ export const HomePage = () => {
           <TabsContent value="favorites">
             {/* Content for Favorites */}
             <h1>Favorites</h1>
-            <HeroGrid heroes={[]} />
+            <HeroGrid heroes={favorites} />
           </TabsContent>
 
           <TabsContent value="heroes">
@@ -100,11 +100,13 @@ export const HomePage = () => {
           </TabsContent>
         </Tabs>
 
-        {/* Character Grid */}
-        {/* <HeroGrid /> */}
-
         {/* Pagination */}
-        <CustomPagination totalPages={heroesResponse?.pages ?? 1} />
+        {
+          // Si el tab es diferente de favoritos, mostrar la paginacion. Porque los favoritos se cargan todos de una vez, no hay paginacion para favoritos.
+          selectedTab !== "favorites" && (
+            <CustomPagination totalPages={heroesResponse?.pages ?? 1} />
+          )
+        }
       </>
     </>
   );

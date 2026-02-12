@@ -13,6 +13,7 @@ interface FavoriteHeroContext {
 
 export const FavoriteHeroContext = createContext({} as FavoriteHeroContext);
 
+// Aplicar validacion de zood para este objeto
 const getFavoritesFromLocalStorage = (): Hero[] => {
     const favorites = localStorage.getItem("favorites");
     return favorites ? JSON.parse(favorites) : [];
