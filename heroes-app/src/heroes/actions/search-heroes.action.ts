@@ -9,7 +9,7 @@ interface Options {
     category?: string;
     universe?: string;
     status?: string;
-    strength?: number;
+    strength?: string;
 
 }
 

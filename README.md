@@ -65,6 +65,10 @@ export function Counter{
 - RedwoodJS
 - Expo (for native apps) React Native
 
+**Actions**
+
+- Este es un principio de diseño de software conocido como "Separación de Responsabilidades". El componente se encarga de mostrar la UI y manejar la interacción, mientras que la acción se encarga exclusivamente de la comunicación con la API. Esto hace que cada parte sea más simple y fácil de mantener.
+
 ## S3 - Reforzamientos de JavaScript && TypeScript
 
 Practicamente en esta seccion se hace un refuerzo de las tipos primitivos, funciones arreglos, objectos, etc.Un collback es una función que se pasa como argumento a otra función o metodo
@@ -691,7 +695,7 @@ Ejemplo: mientras se sincroniza con el servidor, React sigue dejando la UI inter
 **lógica principal de un componente PrivateRoute**: Verifica el estado de autenticación desde el contexto; si el usuario está autenticado, renderiza el componente de la página, de lo contrario, redirige al usuario a la página de login.
 
 
-## S14 - Single Page Application - SPA
+## S13 - Single Page Application - SPA
 
 - **principal ventaja de utilizar los "query parameters" del URL para gestionar el estado de la aplicación** El estado en el URL permite guardar el "punto exacto" en el que se encuentra el usuario, algo que useState no puede hacer por sí solo ya que su estado vive en la memoria y se reinicia con cada recarga de la página.
 
@@ -712,3 +716,17 @@ path="/heroes/:idSlug" // y se lee con el hook useParams.
 - Cuando una API de paginación utiliza offset en lugar de page representa el número de ítems a saltar y se calcula como (page - 1) * limit.
 
 - Por defecto, `TanStack Query` reintenta las peticiones fallidas 3 veces. Establecer `retry: false` desactiva este comportamiento, lo cual es útil para errores como 404, donde el recurso simplemente no existe y reintentar no tiene sentido.
+
+## S15 - Context API - Busquedas y favoritas.
+
+- Cuando un valor de un campo de texto (input) no necesita ser mostrado en tiempo real en otra parte de la UI, se debe de utilizar `useRef`. Para evitar re-renderizados innecesarios del componente con cada pulsación de tecla, mejorando así el rendimiento de la aplicación.
+
+- A diferencia de los hooks como useState o useContext que deben seguir las "Reglas de los Hooks", el API use no es considerado un hook tradicional y sí puede ser utilizado dentro de estructuras condicionales, lo que ofrece mayor flexibilidad en ciertos escenarios.
+
+**Importante!**
+-  El propósito principal de useEffect es manejar "efectos secundarios", que son operaciones que interactúan con el mundo exterior al componente, fuera del flujo de renderizado de React. Un ejemplo perfecto es guardar el estado de los favoritos en localStorage cada vez que este cambia.
+
+- Al colocar la lógica (useState, toggleFavorite, etc.) dentro del FavoriteHeroProvider, este se convierte en un módulo autónomo y cohesivo. Cualquier componente que consuma el contexto obtiene tanto los datos como las funciones para manipularlos de una fuente de verdad única y predecible.
+
+**Importante!**
+- DefaultValue es para componentes "no controlados"; se renderiza una vez y luego el usuario puede escribir libremente. value crea un "componente controlado"; su valor está dictado por el estado de React y no cambiará a menos que el estado se actualice, usualmente a través de onChange.
